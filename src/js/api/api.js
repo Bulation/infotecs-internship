@@ -34,3 +34,5 @@ const API = {
     return result;
   },
 }
+
+export default API;
