@@ -7,9 +7,17 @@ export default class View {
     this.node = node;
     this.tableContainer = new Component(this.node, 'div', 'table-container', '');
     this.renderHideButtons();
-    this.renderTable();
+    this.renderPreloader();
     this.renderPagination();
     this.columns = [...new Array(4).fill([])]
+  }
+
+  renderPreloader() {
+    this.preloader = new Component(this.tableContainer.node, 'div', 'preloader', 'Загрузка...');
+  }
+
+  destroyPreloader() {
+    this.preloader.destroy();
   }
 
   renderHideButtons() {
@@ -39,7 +47,7 @@ export default class View {
   }
 
   renderTable() {
-    this.table = new Component(this.tableContainer, 'table', 'table', '');
+    this.table = new Component(this.tableContainer.node, 'table', 'table', '');
     this.renderTableHead();
     this.renderTableBody();
   }
@@ -82,8 +90,10 @@ export default class View {
   }
 
   renderPagination() {
+    this.paginationContainer = new Component(this.node, 'div', 'pagination-container', '');
     this.prevButton = new Component(this.node, 'button', 'btn prev-btn', 'Prev')
       .setListener('click', () => this.paginationClickHandle(-1));
+    this.pageNumber = new Component(this.node, 'div', 'page-number', `${this.getPageNumber()}`);
     this.nextButton = new Component(this.node, 'button', 'btn next-btn', 'Next')
       .setListener('click', () => this.paginationClickHandle(1));
     this.togglePaginationButton(this.prevButton, this.getPageNumber() === 1);
