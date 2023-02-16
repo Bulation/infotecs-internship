@@ -1,12 +1,10 @@
-import { BASE_URL, COUNT_PER_PAGE, NOT_FOUND_CODE_STATUS } from "../constants/constants"
+import { BASE_URL, NOT_FOUND_CODE_STATUS } from "../constants/constants.js";
 
 const API = {
-  async getData(page, sort = '', order = '') {
-    const response = await fetch(`BASE_URL/?page=${page}&limit=${COUNT_PER_PAGE}&sortBy=${sort}&order=${order}`);
+  
+  async getData() {
+    const response = await fetch(`${BASE_URL}`);
     const data = await response.json();
-    if (sort === 'firstname' || sort === 'lastname') {
-      data = sortByName(sort, order);
-    }
     return data;
   },
 
