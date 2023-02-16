@@ -9,6 +9,7 @@ export default class Component {
     }
     this.parentNode = parentNode;
     this.node = el;
+    this.initialDisplayStyle = this.getStyle('display');
   }
 
   setClass(className) {
@@ -31,12 +32,16 @@ export default class Component {
   }
 
   getStyle(styleName) {
-    return this.node[styleName];
+    return getComputedStyle(this.node)[styleName];
   }
 
   setAttribute(attribute, value) {
     this.node.setAttribute(attribute, value);
     return this;
+  }
+
+  getAttribute(attribute) {
+    return this.node.getAttribute(attribute);
   }
 
   removeAttribute(attribute) {
