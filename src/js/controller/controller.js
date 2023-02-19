@@ -14,9 +14,7 @@ export default class Controller {
       this.view.renderPreloader();
       this.model.normalizeData();
     }
-    this.view.getPageNumber = () => this.model.pageNumber;
-    this.view.getCountOfItems = () => this.model.countOfItems;
-    this.view.sort = (name) => {
+    this.view.onSort = (name) => {
       this.model.sortName = name;
       this.model.changeOrders(name);
       this.model.pageNumber = 0;
@@ -24,15 +22,16 @@ export default class Controller {
       this.view.renderPreloader();
       this.model.normalizeData();
     }
-    this.view.onSubmit = (peopleDataItem) => {
-      this.model.postDataItem(peopleDataItem);
+    this.view.sendData = (peopleDataItem, id) => {
+      this.model.postData(peopleDataItem, id);
+      this.view.destroyTable();
+      this.view.renderPreloader();
     }
     this.model.onUpdate = (peopleData) => {
       this.view.destroyErrorMessage();
       this.view.destroyPreloader();
-      this.view.renderTable(peopleData);
-      this.view.destroyPagination();
-      this.view.renderPagination();
+      this.view.renderTable(peopleData, this.model.pageNumber);
+      this.view.editPagination(this.model.pageNumber, this.model.countOfItems);
     }
     this.model.onError = (msg) => {
       this.view.destroyPreloader();
