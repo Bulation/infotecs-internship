@@ -9,7 +9,7 @@ const API = {
   },
 
   async getDataItem(id) {
-    const response = await fetch(`BASE_URL/${id}`);
+    const response = await fetch(`${BASE_URL}/${id}`);
     if (response.status === NOT_FOUND_CODE_STATUS) {
       throw new Error(`People with ${id} id is not found`);
     }
@@ -18,7 +18,7 @@ const API = {
   },
 
   async updateDataItem(body, id) {
-    const response = await fetch(`BASE_URL/${id}`, {
+    const response = await fetch(`${BASE_URL}/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -26,7 +26,7 @@ const API = {
       body: JSON.stringify(body),
     });
     if (response.status === NOT_FOUND_CODE_STATUS) {
-      throw new Error(`Car with ${id} id is not found`);
+      throw new Error(`People with ${id} id is not found`);
     }
     const result = await response.json();
     return result;
