@@ -6,34 +6,10 @@ export default class DataModel {
     this._pageNumber = 0;
     this._sortName = '';
     this.ordersType = {
-      _firstName: 'asc',
-      set firstName(value) {
-        this._firstName = value;
-      },
-      get firstName() {
-        return this._firstName
-      },
-      _lastName: 'asc',
-      set lastName(value) {
-        this._lastName = value;
-      },
-      get lastName() {
-        return this._lastName
-      },
-      _about: 'asc',
-      set about(value) {
-        this._about = value;
-      },
-      get about() {
-        return this._about
-      },
-      _eyeColor: 'asc',
-      set eyeColor(value) {
-        this._eyeColor = value;
-      },
-      get eyeColor() {
-        return this._eyeColor;
-      },
+      firstName: 'asc',
+      lastName: 'asc',
+      about: 'asc',
+      eyeColor: 'asc',
     };
   }
 
@@ -64,6 +40,15 @@ export default class DataModel {
       this.normalizeData();
     } catch (e) {
       this.onError('Произошла ошибка при загрузке данных. Попробуйте повторить попозже');
+    }
+  }
+
+  async postData(peopleItem, id) {
+    try {
+      await API.updateDataItem(peopleItem, id);
+      await this.loadData();
+    } catch (e) {
+      this.onError('Произошла ошибка при отправке данных. Попробуйте повторить попозже');
     }
   }
 
