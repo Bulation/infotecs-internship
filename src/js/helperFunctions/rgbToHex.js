@@ -1,5 +1,4 @@
 export default function rgbToHex(rgbString) {
-  console.log(rgbString);
   const regExp = /\(([^)]+)\)/;
   const rgbArray = regExp.exec(rgbString)[1].split(',');
   return `#${rgbArray.map((rgb) => toHex(rgb)).join('')}`;
