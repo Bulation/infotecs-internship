@@ -1,5 +1,5 @@
 import API from "../api/api.js";
-import { COUNT_PER_PAGE } from "../constants/constants.js";
+import { COLORS_NAME, COUNT_PER_PAGE } from "../constants/constants.js";
 
 export default class DataModel {
   constructor() {
@@ -19,7 +19,7 @@ export default class DataModel {
 
   set pageNumber(number) {
     if (number < 1 || number > this.peopleData.length / COUNT_PER_PAGE) {
-      this.onError('Неверный номер страницы');
+      this._pageNumber = 1;
       return;
     }
     this._pageNumber = number;
@@ -36,6 +36,12 @@ export default class DataModel {
   async loadData() {
     try {
       this.peopleData = await API.getData();
+      this.peopleData = this.peopleData.map((object) => {
+        return {
+          ...object,
+          'eyeColor': COLORS_NAME[object.eyeColor] ? COLORS_NAME[object.eyeColor] : object.eyeColor,
+        }
+      });
       this.countOfItems = this.peopleData.length;
     } catch (e) {
       this.onError('Произошла ошибка при загрузке данных. Попробуйте повторить попозже');
