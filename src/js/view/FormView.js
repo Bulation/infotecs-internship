@@ -74,6 +74,7 @@ export default class FormView extends Component {
         about: this.inputAbout.node.value,
         eyeColor: this.inputEyeColor.node.value,
       }, this.peopleItem.id);
+      this.destroy();
     }
   }
 
