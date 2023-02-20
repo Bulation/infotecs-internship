@@ -8,7 +8,6 @@ export default class Router {
 
   handleHash() {
     const num = Number(location.hash.slice(1));
-    console.log(num);
     if (num) {
       this.model.pageNumber = num;
       this.callback();
