@@ -58,7 +58,9 @@ export default class View {
   }
 
   destroyTable() {
-    this.table.destroy();
+    if (this.table) {
+      this.table.destroy();
+    }
   }
 
   renderPreloader() {
@@ -97,9 +99,9 @@ export default class View {
   }
 
   editPagination(pageNumber, countOfItems) {
-    this.pagination.togglePaginationButton(this.pagination.prevButton, pageNumber === 0);
-    this.pagination.togglePaginationButton(this.pagination.nextButton, pageNumber + 1 === Math.floor(countOfItems / COUNT_PER_PAGE)); 
-    this.pagination.setPageNumber(pageNumber + 1);
+    this.pagination.togglePaginationButton(this.pagination.prevButton, pageNumber === 1);
+    this.pagination.togglePaginationButton(this.pagination.nextButton, pageNumber === Math.floor(countOfItems / COUNT_PER_PAGE)); 
+    this.pagination.setPageNumber(pageNumber);
   }
 
   destroyPagination() {
