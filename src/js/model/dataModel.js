@@ -3,7 +3,7 @@ import { COUNT_PER_PAGE } from "../constants/constants.js";
 
 export default class DataModel {
   constructor() {
-    this._pageNumber = 0;
+    this._pageNumber = 1;
     this._sortName = '';
     this.ordersType = {
       firstName: 'asc',
@@ -18,7 +18,7 @@ export default class DataModel {
   }
 
   set pageNumber(number) {
-    if (number < 0 || number > this.peopleData.length / COUNT_PER_PAGE) {
+    if (number < 1 || number > this.peopleData.length / COUNT_PER_PAGE) {
       this.onError('Неверный номер страницы');
       return;
     }
@@ -37,7 +37,6 @@ export default class DataModel {
     try {
       this.peopleData = await API.getData();
       this.countOfItems = this.peopleData.length;
-      this.normalizeData();
     } catch (e) {
       this.onError('Произошла ошибка при загрузке данных. Попробуйте повторить попозже');
     }
@@ -46,16 +45,9 @@ export default class DataModel {
   async postData(peopleItem, id) {
     try {
       await API.updateDataItem(peopleItem, id);
-      await this.loadData();
     } catch (e) {
       this.onError('Произошла ошибка при отправке данных. Попробуйте повторить попозже');
     }
-  }
-
-  normalizeData() {
-    this.sortData();
-    this.sliceData();
-    this.onUpdate(this.normalizedPeopleData);
   }
 
   sortData() {
@@ -77,7 +69,7 @@ export default class DataModel {
   }
 
   sliceData() {
-    this.normalizedPeopleData = this.peopleData.slice(this.pageNumber * COUNT_PER_PAGE, (this.pageNumber + 1) * COUNT_PER_PAGE)
+    return this.peopleData.slice((this.pageNumber - 1) * COUNT_PER_PAGE, this.pageNumber * COUNT_PER_PAGE)
   }
 
   changeOrders(name) {
