@@ -45,6 +45,7 @@ export default class Controller {
       this.changeDataView();
       await this.model.postData(peopleDataItem, id);
       await this.model.loadData();
+      this.model.sortData();
       this.model.onUpdate(this.model.sliceData());
     }
     this.model.onUpdate = (peopleData) => {
