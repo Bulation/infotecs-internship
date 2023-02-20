@@ -27,7 +27,7 @@ export default class TableView extends Component {
     this.tbody = new Component(this.node, 'tbody', 'table__body', '');
     peopleData.forEach((peopleItem, index) => {
       const row = new Component(this.tbody.node, 'tr', 'table__row', '');
-      new Component(row.node, 'td', 'table__col', String(index + 1 + (pageNumber * COUNT_PER_PAGE)));
+      new Component(row.node, 'td', 'table__col', String(index + 1 + (pageNumber - 1) * COUNT_PER_PAGE));
       this.columns[0].push(new Component(row.node, 'td', 'table__col', `${peopleItem.name.firstName}`));
       this.columns[1].push(new Component(row.node, 'td', 'table__col', `${peopleItem.name.lastName}`));
       this.columns[2].push(new Component(row.node, 'td', 'table__col table__col-about', `${peopleItem.about}`));
