@@ -1,5 +1,6 @@
 import Component from "../common/component.js";
 import Input from "../common/input.js";
+import { LASTNAME_ERROR_MSG, NAME_ERROR_MSG, PHONE_ERROR_MSG, PHONE_PATTERN } from "../constants/constants.js";
 
 export default class FormView extends Component {
   constructor(parentNode, tagName, className = '', content = '', peopleItem, onSend) {
@@ -25,28 +26,28 @@ export default class FormView extends Component {
   }
 
   renderFormBody() {
-    this.labelName = new Component(this.node, 'label', 'label', 'Firstname').setAttribute('for', 'name');
-    this.inputName = new Input(this.node, 'input', 'input', 'Enter firstname', 'name', this.peopleItem.name.firstName)
+    this.labelName = new Component(this.node, 'label', 'form__label', 'Firstname').setAttribute('for', 'name');
+    this.inputName = new Input(this.node, 'input', 'form__input', 'Enter firstname', 'name', this.peopleItem.name.firstName)
         .setAttribute('minlength', 2)
         .setListener('input', () => this.checkValidity(this.inputName.node, this.nameError));
-    this.nameError = new Component(this.node, 'span', 'error-msg', 'Name must contain at least 2 symbols');
-    this.labelLastName = new Component(this.node, 'label', 'label', 'Lastname').setAttribute('for', 'lastname');
-    this.inputLastName = new Input(this.node, 'input', 'input', 'Enter lastname', 'lastname', this.peopleItem.name.lastName)
+    this.nameError = new Component(this.node, 'span', 'form__error-msg', NAME_ERROR_MSG);
+    this.labelLastName = new Component(this.node, 'label', 'form__label', 'Lastname').setAttribute('for', 'lastname');
+    this.inputLastName = new Input(this.node, 'input', 'form__input', 'Enter lastname', 'lastname', this.peopleItem.name.lastName)
         .setAttribute('minlength', 2)
         .setListener('input', () => this.checkValidity(this.inputLastName.node, this.lastNameError));
-    this.lastNameError = new Component(this.node, 'span', 'error-msg', 'Lastname must contain at least 2 symbols');
-    this.labelAbout = new Component(this.node, 'label', 'label', 'About').setAttribute('for', 'about');
-    this.inputAbout = new Input(this.node, 'textarea', 'textarea', 'Enter info about', 'about', this.peopleItem.about);
-    this.labelPhone = new Component(this.node, 'label', 'label', 'Phone').setAttribute('for', 'phone');
-    this.inputPhone = new Input(this.node, 'input', 'input', 'Enter phone info', 'phone', this.peopleItem.phone)
+    this.lastNameError = new Component(this.node, 'span', 'form__error-msg', LASTNAME_ERROR_MSG);
+    this.labelAbout = new Component(this.node, 'label', 'form__label', 'About').setAttribute('for', 'about');
+    this.inputAbout = new Input(this.node, 'textarea', 'form__textarea', 'Enter info about', 'about', this.peopleItem.about);
+    this.labelPhone = new Component(this.node, 'label', 'form__label', 'Phone').setAttribute('for', 'phone');
+    this.inputPhone = new Input(this.node, 'input', 'form__input', 'Enter phone info', 'phone', this.peopleItem.phone)
         .setAttribute('type', 'tel')
-        .setAttribute('pattern', "^(\\+)?7(\\s+)?\\(?[0-9]{3}\\)?(\\s+)?[0-9]{3}(-|\\s+)?[0-9]{4}$")
+        .setAttribute('pattern', PHONE_PATTERN)
         .setListener('input', () => this.checkValidity(this.inputPhone.node, this.phoneError));
-    this.phoneError = new Component(this.node, 'span', 'error-msg', 'Phone must me written with 11 digits, example - +7 (999) 999-9999');
-    this.labelEyeColor = new Component(this.node, 'label', 'label', 'Eye color').setAttribute('for', 'eyecolor');
-    this.inputEyeColor = new Input(this.node, 'input', 'input', '', 'eyecolor', this.peopleItem.eyeColor)
+    this.phoneError = new Component(this.node, 'span', 'form__error-msg', PHONE_ERROR_MSG);
+    this.labelEyeColor = new Component(this.node, 'label', 'form__label', 'Eye color').setAttribute('for', 'eyecolor');
+    this.inputEyeColor = new Input(this.node, 'input', 'form__input-eye-color', '', 'eyecolor', this.peopleItem.eyeColor)
         .setAttribute('type', 'color');
-    this.submitBtn = new Component(this.node, 'button', 'btn', 'Submit').setAttribute('type', 'submit');
+    this.submitBtn = new Component(this.node, 'button', 'btn form__btn', 'Submit').setAttribute('type', 'submit');
     this.resetBtn = new Component(this.node, 'button', 'btn', 'Reset').setAttribute('type', 'button').setListener('click', () => {
       this.destroy();
     });
@@ -76,10 +77,12 @@ export default class FormView extends Component {
 
   checkValidity(input, error) {
     if (!input.validity.valid || !input.value.length) {
-      error.setClass('active-error');
+      error.setClass('form__error-msg_active');
+      this.submitBtn.setAttribute('disabled', 'true')
       return false;
     } else {
-      error.removeClass('active-error');
+      error.removeClass('form__error-msg_active');
+      this.submitBtn.removeAttribute('disabled');
       return true;
     }
   }
