@@ -21,35 +21,45 @@ export default class View {
   }
 
   renderPage() {
+    this.renderHeader();
+    this.main = new Component(this.node, 'main', 'main', '')
     this.renderSelect();
     this.renderTableContainer();
     this.renderPreloader();
     this.renderPagination();
   }
 
+  renderHeader() {
+    this.header = new Component(this.node, 'header', 'header', '');
+    this.headerTitle = new Component(this.node, 'h1', 'header__title', 'Page title');
+  }
+
   renderSelect() {
-    this.select = new CustomMultipleSelect(this.node, 'div', 'select', '', TABLE_HEADER, (i) => {
+    this.select = new CustomMultipleSelect(this.main.node, 'div', 'select', '', TABLE_HEADER, (i) => {
       const foundElement = this.hiddenColumnIndexes.find((value) => value === i);
+      
       if (foundElement !== undefined) {
         this.hiddenColumnIndexes = this.hiddenColumnIndexes.filter((value) => value !== i);
+        this.toggleColumnDisplay(false, i);
       } else {
         this.hiddenColumnIndexes.push(i);
+        this.toggleColumnDisplay(true, i);
       }
-      this.toggleColumnDisplay(i);
     }, this.hiddenColumnIndexes);
   }
 
   renderTableContainer() {
-    this.tableContainer = new Component(this.node, 'div', 'table-container', '');
+    this.tableSection = new Component(this.main.node, 'section', 'table-section', '');
+    this.tableContainer = new Component(this.tableSection.node, 'div', 'table-container', '');
   }
 
-  renderTable(data, pageNumber) {
-    this.table = new TableView(this.tableContainer.node, 'table', 'table', '', this.hiddenColumnIndexes, this.onRowClick, this.onSort);
+  renderTable(data, pageNumber, ordersType) {
+    this.table = new TableView(this.tableContainer.node, 'table', 'table', '', this.hiddenColumnIndexes, this.onRowClick, this.onSort, ordersType);
     this.table.renderTableHead();
     this.table.renderTableBody(data, pageNumber);
     if (this.hiddenColumnIndexes.length) {
       this.hiddenColumnIndexes.forEach((value) => {
-        this.toggleColumnDisplay(value);
+        this.toggleColumnDisplay(true, value);
       })
     }
   }
@@ -61,7 +71,12 @@ export default class View {
   }
 
   renderPreloader() {
-    this.preloader = new Component(this.tableContainer.node, 'div', 'preloader', 'Загрузка...');
+    this.preloader = new Component(this.tableContainer.node, 'div', 'preloader', '');
+    const dot = new Component(this.preloader.node, 'div', 'preloader__dot', '');
+    const dotsList = new Component(this.preloader.node, 'div', 'preloader__dots-list', '');
+    new Component(dotsList.node, 'span', '', '');
+    new Component(dotsList.node, 'span', '', '');
+    new Component(dotsList.node, 'span', '', '');
   }
 
   destroyPreloader() {
@@ -78,9 +93,8 @@ export default class View {
     }
   }
 
-  toggleColumnDisplay(index) {
-    const foundElement = this.hiddenColumnIndexes.find((value) => value === index);
-    if (foundElement !== undefined) {
+  toggleColumnDisplay(shouldHide, index) {
+    if (shouldHide) {
       this.table.columns[index].forEach((colItem) => {
         colItem.setStyle('display', 'none');
       });
@@ -89,10 +103,11 @@ export default class View {
         colItem.setStyle('display', colItem.initialDisplayStyle);
       });
     }
+    
   }
 
   renderPagination() {
-    this.pagination = new PaginationView(this.node, 'div', 'pagination-container', '', this.paginationClickHandle);
+    this.pagination = new PaginationView(this.main.node, 'div', 'pagination', '', this.paginationClickHandle);
   }
 
   editPagination(pageNumber, countOfItems) {
@@ -106,7 +121,7 @@ export default class View {
   }
 
   renderForm(peopleItem) {
-    this.form = new FormView(this.node, 'form', 'form', '', peopleItem, this.sendData);
+    this.form = new FormView(this.tableSection.node, 'form', 'form', '', peopleItem, this.sendData).setAttribute('novalidate', 'true');
   }
 
   destroyForm() {
