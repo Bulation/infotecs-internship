@@ -48,7 +48,7 @@ export default class FormView extends Component {
         .setAttribute('type', 'color');
     this.submitBtn = new Component(this.node, 'button', 'btn', 'Submit').setAttribute('type', 'submit');
     this.resetBtn = new Component(this.node, 'button', 'btn', 'Reset').setAttribute('type', 'button').setListener('click', () => {
-      this.form.destroy();
+      this.destroy();
     });
   }
 
