@@ -1,6 +1,7 @@
 import Component from "../common/component.js";
 import { COUNT_PER_PAGE, TABLE_HEADER } from "../constants/constants.js";
 import rgbToHex from "../helperFunctions/rgbToHex.js";
+import CustomMultipleSelect from "./CustomMultipleSelect.js";
 import FormView from "./FormView.js";
 import PaginationView from "./PaginationView.js";
 import TableView from "./TableView.js";
@@ -20,26 +21,22 @@ export default class View {
   }
 
   renderPage() {
-    this.renderHideButtons();
+    this.renderSelect();
     this.renderTableContainer();
     this.renderPreloader();
     this.renderPagination();
   }
 
-  renderHideButtons() {
-    this.buttonsContainer = new Component(this.node, 'div', 'buttons-container', '');
-    TABLE_HEADER.forEach((name, i) => {
-      const button = new Component(this.buttonsContainer.node, 'button', '', `Hide/show ${name}`);
-      button.setListener('click', () => {
-        const foundElement = this.hiddenColumnIndexes.find((value) => value === i);
-        if (foundElement !== undefined) {
-          this.hiddenColumnIndexes = this.hiddenColumnIndexes.filter((value) => value !== i);
-        } else {
-          this.hiddenColumnIndexes.push(i);
-        }
-        this.toggleColumnDisplay(i);
-      });
-    });
+  renderSelect() {
+    this.select = new CustomMultipleSelect(this.node, 'div', 'select', '', TABLE_HEADER, (i) => {
+      const foundElement = this.hiddenColumnIndexes.find((value) => value === i);
+      if (foundElement !== undefined) {
+        this.hiddenColumnIndexes = this.hiddenColumnIndexes.filter((value) => value !== i);
+      } else {
+        this.hiddenColumnIndexes.push(i);
+      }
+      this.toggleColumnDisplay(i);
+    }, this.hiddenColumnIndexes);
   }
 
   renderTableContainer() {
