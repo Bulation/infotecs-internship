@@ -61,5 +61,12 @@ export default class Controller {
     window.onbeforeunload = () => {
       this.storageModel.save('hiddenColumnIndexes', this.view.hiddenColumnIndexes);
     }
+    document.body.onclick = (e) => {
+      console.log(e.target);
+      if (this.view.select.isOptionsOpen && !this.view.select.node.contains(e.target)) {
+        this.view.select.optionsList.destroy();
+        this.view.select.isOptionsOpen = false;
+      }
+    }
   }
 }
