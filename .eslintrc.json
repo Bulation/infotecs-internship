@@ -1,7 +1,7 @@
 {
   "parser": "@typescript-eslint/parser",
-  "plugins": ["import", "@typescript-eslint"],
-  "extends": ["plugin:@typescript-eslint/recommended"],
+  "plugins": ["import", "@typescript-eslint", "prettier"],
+  "extends": ["plugin:@typescript-eslint/recommended", "plugin:prettier/recommended", "prettier"],
   "parserOptions": {
     "ecmaVersion": 2020,
     "sourceType": "module"
@@ -11,6 +11,12 @@
     "browser": true,
     "node": true
   },
+  "prettier/prettier": [
+    "error",
+    {
+      "endOfLine": "auto"
+    }
+  ],
   "rules": {
     "no-debugger": "off",
     "no-console": 0,
