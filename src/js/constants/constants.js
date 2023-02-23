@@ -9,3 +9,7 @@ export const COLORS_NAME = {
   'red': '#ff0000',
   'green': '#008000',
 };
+export const PHONE_PATTERN = "^(\\+)?7(\\s+)?\\(?[0-9]{3}\\)?(\\s+)?[0-9]{3}(-|\\s+)?[0-9]{4}$";
+export const NAME_ERROR_MSG = 'Name must contain at least 2 symbols';
+export const LASTNAME_ERROR_MSG = 'Lastname must contain at least 2 symbols';
+export const PHONE_ERROR_MSG = 'Phone must me written with 11 digits, example - +7 (999) 999-9999';
