@@ -1,0 +1,11 @@
+@media screen and (max-width: 768px) {
+  .table-section {
+    flex-direction: column;
+  }
+  .table-container {
+    width: 100%;
+  }
+  .form {
+    margin: 0 auto;
+  }
+}

@@ -1,0 +1,78 @@
+.select {
+  width: 150px;
+  margin: 0 auto;
+  position: relative;
+  font: 400 16px/19px Inter;
+}
+
+.select-placeholder {
+  display: flex;
+  color: #686868;
+  padding: 10px;
+  background: #f8f8f8;
+  border: 2px solid #fff;
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgb(0 96 206 / 10%);
+  min-height: 25px;
+  position: relative;
+  cursor: pointer;
+}
+
+.select-placeholder:hover {
+  background: rgba(102,78,249,.1);
+  border: 2px solid rgba(102,78,249,0);
+}
+
+.select-placeholder__icon {
+  border-style: solid;
+  border-width: 2px 2px 0 0;
+  display: block;
+  height: 10px;
+  left: 10px;
+  position: relative;
+  top: 2px;
+  transform: rotate(135deg);
+  width: 10px;
+  border-color: rgb(204, 204, 204);
+}
+
+.select-options-list {
+  background-color: #ffffff;
+  border-radius: 10px;
+  width: 150px;
+  list-style-type: none;
+  position: absolute;
+  left: 0;
+  top: 40px;
+  z-index: 2;
+}
+
+.select-options-list__option {
+  display: flex;
+  justify-content: space-between;
+  color: #1e2123;
+  padding: 10px 15px;
+  border-radius: 10px;
+}
+
+.select-options-list__option:hover {
+  cursor: pointer;
+  background-color: #f8f8f8;
+}
+
+.select-options-list__option-checkbox {
+  display: block;
+  background: #f8f8f8;
+  border: 1px solid #f0f0f0;
+  border-radius: 5px;
+  height: 18px;
+  margin-right: 10px;
+  transition: all .3s ease-in-out;
+  width: 18px;
+}
+
+.select-options-list__option-checkbox_selected {
+  background: #664ef9;
+  border: 1px solid #664ef9;
+  border-radius: 5px;
+}
