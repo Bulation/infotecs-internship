@@ -10,6 +10,7 @@ export default class Controller {
     this.registerListeners();
     this.view.renderPage();
     this.model.loadData().then(() => {
+      this.model.sortData();
       this.model.onUpdate(this.model.sliceData());
       this.router = new Router(this.model, () => {
         this.changeDataView();
@@ -21,6 +22,8 @@ export default class Controller {
   loadDataFromStorage() {
     if (this.storageModel.hasKey('hiddenColumnIndexes')) {
       this.view.hiddenColumnIndexes = this.storageModel.load('hiddenColumnIndexes');
+      this.model.sortName = this.storageModel.load('sortName');
+      this.model.ordersType = this.storageModel.load('orders');
     }
   }
 
@@ -51,7 +54,7 @@ export default class Controller {
     this.model.onUpdate = (peopleData) => {
       this.view.destroyErrorMessage();
       this.view.destroyPreloader();
-      this.view.renderTable(peopleData, this.model.pageNumber);
+      this.view.renderTable(peopleData, this.model.pageNumber, this.model.ordersType);
       this.view.editPagination(this.model.pageNumber, this.model.countOfItems);
     }
     this.model.onError = (msg) => {
@@ -60,9 +63,10 @@ export default class Controller {
     }
     window.onbeforeunload = () => {
       this.storageModel.save('hiddenColumnIndexes', this.view.hiddenColumnIndexes);
+      this.storageModel.save('sortName', this.model.sortName);
+      this.storageModel.save('orders', this.model.ordersType);
     }
     document.body.onclick = (e) => {
-      console.log(e.target);
       if (this.view.select.isOptionsOpen && !this.view.select.node.contains(e.target)) {
         this.view.select.optionsList.destroy();
         this.view.select.isOptionsOpen = false;
