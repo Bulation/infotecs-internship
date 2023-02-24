@@ -1,0 +1,1 @@
+export type SortNameType = 'firstName' | 'lastName' | 'about' | 'eyeColor'; // тип, содержащий название каждого заголовка таблицы
