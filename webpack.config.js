@@ -18,8 +18,10 @@ module.exports = {
     historyApiFallback: true,
     open: true,
     compress: true,
-    host: 'localhost',
+    host: '0.0.0.0',
     hot: true,
+    port: 8080,
+    allowedHosts: 'all',
     static: {
       directory: path.join(__dirname, './src'),
     },
